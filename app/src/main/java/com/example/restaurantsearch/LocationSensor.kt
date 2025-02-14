@@ -2,6 +2,8 @@ package com.example.restaurantsearch
 
 import android.Manifest
 import android.app.Activity
+import android.app.Application
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Looper
@@ -12,28 +14,26 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.*
 
-class LocationSensor(val activity: Activity) {
+class LocationSensor(private val context: Context) {
 
-    // 位置情報が更新されたらこのLiveDataに格納する
+    init {
+        require(context is Application || context is Activity) {
+            "Context must be an Application or Activity context"
+        }
+    }
+
     private val _location: MutableLiveData<Location> = MutableLiveData()
     val location: LiveData<Location> = _location
 
     private val fusedLocationClient: FusedLocationProviderClient =
-        LocationServices.getFusedLocationProviderClient(activity)
+        LocationServices.getFusedLocationProviderClient(context)
 
     private var locationCallback: LocationCallback? = null
 
     fun requestLocationPermission(activity: Activity) {
         val LOCATION_PERMISSION_REQUEST_CODE = 1001
 
-        // 位置情報の権限があるか確認する
-        val isAccept = ContextCompat.checkSelfPermission(
-            activity,
-            Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
-
-        if (!isAccept) {
-            // 権限が許可されていない場合はリクエストする
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                 activity,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
@@ -44,16 +44,16 @@ class LocationSensor(val activity: Activity) {
 
     fun requestLocationUpdate() {
         if (ActivityCompat.checkSelfPermission(
-                activity,
+                context,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(
-                activity,
-                Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             Log.d("LocationSensor", "権限がない")
             return
+        }
+
+        locationCallback?.let {
+            fusedLocationClient.removeLocationUpdates(it)
         }
 
         val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000)
@@ -64,15 +64,18 @@ class LocationSensor(val activity: Activity) {
 
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
-                locationResult.lastLocation?.let {
-                    _location.postValue(it)
-                    // 位置情報を取得したら即座に監視を停止
+                val locations = locationResult.locations
+                if (locations.isNotEmpty()) {
+                    val latestLocation = locations.last()
+                    _location.postValue(latestLocation)
+                    Log.d("LocationSensor", "位置情報を更新: ${latestLocation.latitude}, ${latestLocation.longitude}")
                     fusedLocationClient.removeLocationUpdates(this)
+                } else {
+                    Log.d("LocationSensor", "位置情報を取得できませんでした")
                 }
             }
         }
 
-        // 位置情報をリクエスト
         fusedLocationClient.requestLocationUpdates(
             locationRequest,
             locationCallback as LocationCallback,
@@ -80,3 +83,4 @@ class LocationSensor(val activity: Activity) {
         )
     }
 }
+

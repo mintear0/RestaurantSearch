@@ -9,8 +9,14 @@ import androidx.activity.compose.setContent
 import androidx.lifecycle.Observer
 import androidx.compose.*
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.navigation.compose.rememberNavController
+import com.example.restaurantsearch.navigation.AppNavHost
 import com.example.restaurantsearch.ui.theme.*
 
 class MainActivity : AppCompatActivity() {
@@ -24,20 +30,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun location
-        /*
-        val locationSensor = LocationSensor(this)
-        locationSensor.requestLocationPermission(this)
+    @Composable
+    fun MyApp(modifier: Modifier = Modifier) {
+        val navController = rememberNavController()
 
-        button.setOnClickListener {
-            locationSensor.requestLocationUpdate()
+        Surface(modifier) {
+            AppNavHost(navController)
         }
-
-        // LiveDataの値が変化をobserverが監視、プログラムを実行する
-        locationSensor.location.observe(this, Observer {
-            Text(text = "${it.latitude}\n, ${it.longitude}")
-        })
-        */
     }
-
 }
