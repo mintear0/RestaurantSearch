@@ -17,14 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.restaurantsearch.viewmodel.SearchViewModel
+import com.example.restaurantsearch.viewmodel.ConditionViewModel
 
 @Composable
 fun ConditionScreen(
     onContinueClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val viewModel: SearchViewModel = viewModel()
+    val viewModel: ConditionViewModel = viewModel()
     var showError by remember { mutableStateOf(false) } // エラー表示フラグ
 
     Column(
@@ -55,7 +55,7 @@ fun ConditionScreen(
 }
 
 @Composable
-fun InputDistance(viewModel: SearchViewModel, showError: Boolean) {
+fun InputDistance(viewModel: ConditionViewModel, showError: Boolean) {
     OutlinedTextField(
         modifier = Modifier
             .padding(vertical = 6.dp),
@@ -72,7 +72,7 @@ fun InputDistance(viewModel: SearchViewModel, showError: Boolean) {
 }
 
 @Composable
-fun InputMoney(viewModel: SearchViewModel, showError: Boolean) {
+fun InputMoney(viewModel: ConditionViewModel, showError: Boolean) {
     OutlinedTextField(
         modifier = Modifier
             .padding(vertical = 12.dp),

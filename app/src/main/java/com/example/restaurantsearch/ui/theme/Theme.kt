@@ -1,7 +1,6 @@
 package com.example.restaurantsearch.ui.theme
 
 import com.example.restaurantsearch.R
-import com.example.restaurantsearch.viewmodel.SearchViewModel
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Build
@@ -11,7 +10,6 @@ import androidx.compose.animation.core.spring
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -28,7 +26,6 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -38,8 +35,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.rememberNavController
+import com.example.restaurantsearch.screens.ResultScreen
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -95,94 +91,30 @@ fun RestaurantSearchTheme(
 
 
 
-@Composable
-fun LocationDisplay(viewModel: SearchViewModel = viewModel()) {
-    // LiveData を監視して位置情報を取得
-    val location by viewModel.locationData.observeAsState()
-
-    // 位置情報が更新されると自動的に表示が更新される
-    location?.let {
-        Text("現在地: 緯度 ${it.first}, 経度 ${it.second}")
-    } ?: Text("位置情報を取得中...")
-}
 
 
 
 
 
 
-@Composable
-private fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Card(
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primary
-        ),
-        modifier = modifier.padding(vertical = 4.dp, horizontal = 8.dp)
-    ) {
-        CardContent(name)
-    }
-}
 
-@Composable
-private fun CardContent(name: String) {
-    var expanded by rememberSaveable { mutableStateOf(false) }
 
-    Row(
-        modifier = Modifier
-            .padding(12.dp)
-            .animateContentSize(
-                animationSpec = spring(
-                    dampingRatio = Spring.DampingRatioMediumBouncy,
-                    stiffness = Spring.StiffnessLow
-                )
-            )
-    ) {
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(12.dp)
-        ) {
-            Text(text = "Hello, ")
-            Text(
-                text = name, style = MaterialTheme.typography.headlineMedium.copy(
-                    fontWeight = FontWeight.ExtraBold
-                )
-            )
-            if (expanded) {
-                LocationDisplay()
-                Text(
-                    text = ("Composem ipsum color sit lazy, " +
-                            "padding theme elit, sed do bouncy. ").repeat(4),
-                )
-            }
-        }
-        IconButton(onClick = { expanded = !expanded }) {
-            Icon(
-                imageVector = if (expanded) Icons.AutoMirrored.Filled.ArrowBack else Icons.AutoMirrored.Filled.ArrowForward,
-                contentDescription = if (expanded) {
-                    stringResource(R.string.show_less)
-                } else {
-                    stringResource(R.string.show_more)
-                }
-            )
-        }
-    }
-}
 
 
 @Preview(showBackground = true, widthDp = 320, heightDp = 320)
 @Composable
-fun OnboardingPreview() {
-    com.example.restaurantsearch.screens.OnboardingScreen(onContinueClicked = {}) // Do nothing on click.
+fun ConditionPreview() {
+    com.example.restaurantsearch.screens.ConditionScreen(onContinueClicked = {}) // Do nothing on click.
 }
 
+/*
 @Preview(showBackground = true, widthDp = 320)
 @Composable
 fun SearchingScreenPreview() {
     val navController = rememberNavController()
-    SearchingScreen(navController)
+    SearchingScreen(modifier: Modifier = Modifier, navController)
 }
-
+*/
 @Preview(
     showBackground = true,
     widthDp = 320,
@@ -195,9 +127,10 @@ fun ResultPreview() {
     ResultScreen()
 }
 
-
+/*
 @Preview
 @Composable
 fun MyAppPreview() {
     MyApp(Modifier.fillMaxSize())
 }
+*/

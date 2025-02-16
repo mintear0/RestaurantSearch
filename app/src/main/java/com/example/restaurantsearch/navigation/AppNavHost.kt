@@ -20,13 +20,13 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
             ConditionScreen(
                 onContinueClicked = {
                     navController.navigate("searching") {
-                        popUpTo("onboarding") { inclusive = true }
+                        popUpTo("condition") { inclusive = false }
                     }
                 }
             )
         }
         composable("searching") {
-            SearchingScreen(navController)
+            SearchingScreen(modifier, navController)
         }
         composable("result") {
             ResultScreen()

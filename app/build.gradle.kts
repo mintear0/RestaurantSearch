@@ -59,6 +59,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.runtime.livedata)
+    implementation (libs.kotlinx.coroutines.play.services)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

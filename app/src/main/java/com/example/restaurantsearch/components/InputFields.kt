@@ -7,10 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.restaurantsearch.viewmodel.SearchViewModel
+import com.example.restaurantsearch.viewmodel.ConditionViewModel
 
 @Composable
-fun InputDistance(viewModel: SearchViewModel, showError: Boolean) {
+fun InputDistance(viewModel: ConditionViewModel, showError: Boolean) {
     OutlinedTextField(
         modifier = Modifier
             .padding(vertical = 6.dp),
@@ -27,7 +27,7 @@ fun InputDistance(viewModel: SearchViewModel, showError: Boolean) {
 }
 
 @Composable
-fun InputMoney(viewModel: SearchViewModel, showError: Boolean) {
+fun InputMoney(viewModel: ConditionViewModel, showError: Boolean) {
     OutlinedTextField(
         modifier = Modifier
             .padding(vertical = 12.dp),
