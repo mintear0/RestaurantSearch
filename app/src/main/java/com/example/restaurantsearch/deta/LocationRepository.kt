@@ -23,6 +23,8 @@ class LocationRepository(context: Context) {
     private val fusedLocationClient: FusedLocationProviderClient =
         LocationServices.getFusedLocationProviderClient(context)
 
+    var newLocation: Location? = null
+
     @SuppressLint("MissingPermission")
     suspend fun fetchLocation(): Pair<Double, Double>? {
         return try {
@@ -34,7 +36,7 @@ class LocationRepository(context: Context) {
              */
                 val priority = Priority.PRIORITY_HIGH_ACCURACY
                 val cancellationTokenSource = CancellationTokenSource()
-                val newLocation = fusedLocationClient.getCurrentLocation(priority, cancellationTokenSource.token).await()
+                newLocation = fusedLocationClient.getCurrentLocation(priority, cancellationTokenSource.token).await()
 
                 newLocation?.let { Pair(it.latitude, it.longitude) }
 

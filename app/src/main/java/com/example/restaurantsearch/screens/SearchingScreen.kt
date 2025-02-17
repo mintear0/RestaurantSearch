@@ -16,25 +16,60 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.restaurantsearch.deta.Budget
+import com.example.restaurantsearch.deta.SearchData
 import com.example.restaurantsearch.viewmodel.SearchViewModel
 import com.example.restaurantsearch.util.PermissionUtils
+import com.example.restaurantsearch.viewmodel.RestaurantViewModel
 
 @Composable
 fun SearchingScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
-    searchViewModel: SearchViewModel = viewModel()
+    searchViewModel: SearchViewModel = viewModel(),
+    restaurantViewModel: RestaurantViewModel = viewModel(),
+    budget: String,
+    range: String
 ) {
     val context = LocalContext.current
     val activity = context as? Activity
 
     val isLocationComplete by searchViewModel.isLocationComplete.observeAsState(false)
-    val isSearchComplete by searchViewModel.isSearchComplete.observeAsState(false)
+    val restaurants by restaurantViewModel.restaurants.observeAsState(emptyList())
+    val location by searchViewModel.locationData.observeAsState()
+
+
+    val feeCode = budgetSelector(budget)
+    val rangeNumber = rangeSelector(range)
+    val apiKey = "409d3d0e0aae1587"
 
     LaunchedEffect(isLocationComplete) {
         if (isLocationComplete) {
+            Log.d("SearchingScreen", "isLocationCompleteはTrueだよ")
+            location?.let { (lat, lng) ->
+                val searchData = SearchData(
+                    key = apiKey,
+                    feeCode = feeCode,
+                    range = rangeNumber,
+                    lat = lat,
+                    lng = lng,
+                    format = "json"
+                )
+                restaurantViewModel.getRestaurants(searchData)
+                Log.d("SearchingScreen", "getRestaurantsは通過したよ")
+                Log.d("searchData","budget={$budget}range={$feeCode}")
+                Log.d("API_REQUEST", "URL: https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=$apiKey&budget=$feeCode&range=$rangeNumber&lat=$lat&lng=$lng&format=json")
+            }
+        }
+    }
+
+    // restaurantsのデータが取得できたらResultScreenへ移動
+    LaunchedEffect(restaurants) {
+        if (restaurants.isNotEmpty()) {
+            Log.d("SearchingScreen", "restaurantsは{$restaurants}だよ")
             navController.navigate("result")
         }
+        Log.e("SearchingScreen", "restaurantsは{$restaurants}だよ")
     }
 
     DisposableEffect(Unit) {
@@ -52,10 +87,7 @@ fun SearchingScreen(
             Text("条件に合うレストランを検索中...")
             if (PermissionUtils.checkLocationPermission(activity)) {
                 searchViewModel.requestLocation()
-                if(isLocationComplete)
-                {
-                    LocationDisplay(searchViewModel)
-                }
+                Log.d("SearchingScreen", "requestLocation()は動いたよ")
             } else {
                 PermissionUtils.requestLocationPermission(activity)
                 Log.e("SearchingScreen", "Permissionがないよ")
@@ -64,6 +96,52 @@ fun SearchingScreen(
         } else {
             Log.e("SearchingScreen", "activityがnull")
         }
+    }
+}
+
+@Composable
+fun budgetSelector(budget: String): String {
+    return if(budget.toInt() <= 500) {
+        "B009"
+    } else if(budget.toInt() <= 1000) {
+        "B010"
+    } else if(budget.toInt() <= 1500) {
+        "B011"
+    } else if(budget.toInt() <= 2000) {
+        "B001"
+    } else if(budget.toInt() <= 3000) {
+        "B002"
+    } else if(budget.toInt() <= 4000) {
+        "B003"
+    } else if(budget.toInt() <= 5000) {
+        "B008"
+    } else if(budget.toInt() <= 7000) {
+        "B004"
+    } else if(budget.toInt() <= 10000) {
+        "B005"
+    } else if(budget.toInt() <= 15000) {
+        "B006"
+    } else if(budget.toInt() <= 20000) {
+        "B012"
+    } else if(budget.toInt() <= 30000) {
+        "B013"
+    } else {
+        "B014"
+    }
+}
+
+@Composable
+fun rangeSelector(range: String): Int {
+    return if(range.toInt() < 300) {
+        1
+    } else if(range.toInt() < 500) {
+        2
+    } else if(range.toInt() < 1000) {
+        3
+    } else if(range.toInt() < 2000) {
+        4
+    } else {
+        5
     }
 }
 

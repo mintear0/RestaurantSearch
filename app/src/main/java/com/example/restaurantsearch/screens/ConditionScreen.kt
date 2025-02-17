@@ -17,12 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.restaurantsearch.viewmodel.ConditionViewModel
 
 @Composable
 fun ConditionScreen(
-    onContinueClicked: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavController
 ) {
     val viewModel: ConditionViewModel = viewModel()
     var showError by remember { mutableStateOf(false) } // エラー表示フラグ
@@ -34,18 +35,18 @@ fun ConditionScreen(
     ) {
         Text("検索範囲と金額を指定")
 
-        InputDistance(viewModel, showError)
-        InputMoney(viewModel, showError)
+        InputRange(viewModel, showError)
+        InputBudget(viewModel, showError)
 
         Button(
             modifier = Modifier
                 .padding(vertical = 24.dp),
             onClick = {
-                if (viewModel.distance.isEmpty() || viewModel.money.isEmpty()) {
+                if (viewModel.range.isEmpty() || viewModel.budget.isEmpty()) {
                     showError = true // 入力が空ならエラー表示
                 } else {
                     showError = false
-                    onContinueClicked()
+                    navController.navigate("searching/${viewModel.range}/${viewModel.budget}")
                 }
             }
         ) {
@@ -55,16 +56,16 @@ fun ConditionScreen(
 }
 
 @Composable
-fun InputDistance(viewModel: ConditionViewModel, showError: Boolean) {
+fun InputRange(viewModel: ConditionViewModel, showError: Boolean) {
     OutlinedTextField(
         modifier = Modifier
             .padding(vertical = 6.dp),
-        value = viewModel.distance,
+        value = viewModel.range,
         onValueChange = { viewModel.updateDistance(it) },
         label = { Text("検索範囲を入力(m)") },
-        isError = showError && viewModel.distance.isEmpty(),
+        isError = showError && viewModel.range.isEmpty(),
         supportingText = {
-            if (showError && viewModel.distance.isEmpty()) {
+            if (showError && viewModel.range.isEmpty()) {
                 Text("入力してください", color = Color.Red)
             }
         }
@@ -72,16 +73,16 @@ fun InputDistance(viewModel: ConditionViewModel, showError: Boolean) {
 }
 
 @Composable
-fun InputMoney(viewModel: ConditionViewModel, showError: Boolean) {
+fun InputBudget(viewModel: ConditionViewModel, showError: Boolean) {
     OutlinedTextField(
         modifier = Modifier
-            .padding(vertical = 12.dp),
-        value = viewModel.money,
+            .padding(vertical = 6.dp),
+        value = viewModel.budget,
         onValueChange = { viewModel.updateMoney(it) },
         label = { Text("金額を入力(円)") },
-        isError = showError && viewModel.money.isEmpty(),
+        isError = showError && viewModel.budget.isEmpty(),
         supportingText = {
-            if (showError && viewModel.money.isEmpty()) {
+            if (showError && viewModel.budget.isEmpty()) {
                 Text("入力してください", color = Color.Red)
             }
         }

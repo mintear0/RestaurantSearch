@@ -6,21 +6,21 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
 class ConditionViewModel : ViewModel(){
-    var distance by mutableStateOf("")
+    var range by mutableStateOf("")
         private set
 
     fun updateDistance(input: String) {
         if(input.all { it.isDigit() }) {
-            distance = input
+            range = input
         }
     }
 
-    var money by mutableStateOf("")
+    var budget by mutableStateOf("")
         private set
 
     fun updateMoney(input: String) {
         if(input.all { it.isDigit() }) {
-            money = input
+            budget = input
         }
     }
 }

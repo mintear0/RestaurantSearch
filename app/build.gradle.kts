@@ -60,6 +60,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.runtime.livedata)
     implementation (libs.kotlinx.coroutines.play.services)
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
 
 
     testImplementation(libs.junit)

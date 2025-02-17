@@ -5,6 +5,8 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,7 +20,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -26,19 +30,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.restaurantsearch.R
+import com.example.restaurantsearch.deta.Shop
 import com.example.restaurantsearch.screens.SearchingScreen
+import com.example.restaurantsearch.viewmodel.RestaurantViewModel
 import com.example.restaurantsearch.viewmodel.SearchViewModel
+
 
 @Composable
 fun ResultScreen(
     modifier: Modifier = Modifier,
-    names: List<String> = List(1000) { "$it" }
-) {
-    LazyColumn(modifier = modifier.padding(vertical = 4.dp)) {
-        items(items = names) { name ->
-            Greeting(name = name)
+    //navController: NavController,
+    restaurantViewModel: RestaurantViewModel = viewModel()
+    ) {
+    val restaurants by restaurantViewModel.restaurants.observeAsState(emptyList())
+
+    Column(modifier = modifier.fillMaxSize()) {
+        if (restaurants.isEmpty()) {
+            Text("検索範囲を広げるか、予算を増やしてください")
+        } else {
+            LazyColumn {
+                items(restaurants) { shop ->
+                    RestaurantItem(shop)
+                }
+            }
         }
     }
 }
@@ -52,6 +70,22 @@ private fun Greeting(name: String, modifier: Modifier = Modifier) {
         modifier = modifier.padding(vertical = 4.dp, horizontal = 8.dp)
     ) {
         CardContent(name)
+    }
+}
+
+@Composable
+fun RestaurantItem(shop: Shop) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(text = shop.name ?: "店名不明", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            Text(text = shop.address ?: "住所不明")
+            Text(text = "予算: ${shop.budget?.name ?: "不明"}")
+        }
     }
 }
 

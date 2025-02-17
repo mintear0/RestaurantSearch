@@ -34,6 +34,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
      */
     @SuppressLint("MissingPermission")
     fun requestLocation() {
+        locationJob?.cancel()
         locationJob = viewModelScope.launch {
             val newLocation = locationRepository.fetchLocation()
             _locationData.value = newLocation

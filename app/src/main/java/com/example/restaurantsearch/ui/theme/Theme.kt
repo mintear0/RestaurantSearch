@@ -100,13 +100,13 @@ fun RestaurantSearchTheme(
 
 
 
-
+/*
 @Preview(showBackground = true, widthDp = 320, heightDp = 320)
 @Composable
 fun ConditionPreview() {
     com.example.restaurantsearch.screens.ConditionScreen(onContinueClicked = {}) // Do nothing on click.
 }
-
+*/
 /*
 @Preview(showBackground = true, widthDp = 320)
 @Composable
