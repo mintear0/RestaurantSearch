@@ -69,7 +69,7 @@ fun SearchingScreen(
             Log.d("SearchingScreen", "restaurantsは{$restaurants}だよ")
             navController.navigate("result")
         }
-        Log.e("SearchingScreen", "restaurantsは{$restaurants}だよ")
+        Log.d("SearchingScreen", "restaurantsは{$restaurants}だよ")
     }
 
     DisposableEffect(Unit) {
@@ -84,12 +84,12 @@ fun SearchingScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (activity != null) {
-            Text("条件に合うレストランを検索中...")
             if (PermissionUtils.checkLocationPermission(activity)) {
+                Text("条件に合うレストランを検索中...")
                 searchViewModel.requestLocation()
                 Log.d("SearchingScreen", "requestLocation()は動いたよ")
             } else {
-                PermissionUtils.requestLocationPermission(activity)
+                Text("位置情報の利用が許可されていません。設定から位置情報の許可をしてください。")
                 Log.e("SearchingScreen", "Permissionがないよ")
             }
 

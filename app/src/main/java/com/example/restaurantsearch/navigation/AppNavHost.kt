@@ -1,5 +1,7 @@
 package com.example.restaurantsearch.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -11,20 +13,22 @@ import androidx.navigation.navArgument
 import com.example.restaurantsearch.screens.ConditionScreen
 import com.example.restaurantsearch.screens.SearchingScreen
 import com.example.restaurantsearch.screens.ResultScreen
+import com.example.restaurantsearch.viewmodel.ConditionViewModel
 import com.example.restaurantsearch.viewmodel.RestaurantViewModel
 import com.example.restaurantsearch.viewmodel.SearchViewModel
 
 @Composable
-fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
+fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier, paddingValues: PaddingValues) {
+    val conditionViewModel: ConditionViewModel = viewModel()
     val searchViewModel: SearchViewModel = viewModel()
     val restaurantViewModel : RestaurantViewModel = viewModel()
     NavHost(
         navController = navController,
         startDestination = "condition",
-        modifier = modifier
+        modifier = modifier.padding(paddingValues)
     ) {
         composable("condition") {
-            ConditionScreen(modifier, navController)
+            ConditionScreen(modifier, navController, conditionViewModel)
         }
         composable("searching/{budget}/{range}",
             arguments = listOf(
@@ -38,7 +42,7 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
             SearchingScreen(modifier, navController, searchViewModel, restaurantViewModel, budget, range)
         }
         composable("result") {
-            ResultScreen(modifier, restaurantViewModel)
+            ResultScreen(modifier, restaurantViewModel, conditionViewModel.range)
         }
     }
 }

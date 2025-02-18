@@ -1,5 +1,6 @@
 package com.example.restaurantsearch.screens
 
+import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
@@ -36,6 +37,7 @@ import androidx.navigation.NavController
 import com.example.restaurantsearch.R
 import com.example.restaurantsearch.deta.Shop
 import com.example.restaurantsearch.screens.SearchingScreen
+import com.example.restaurantsearch.util.DistanceMeasure.distanceFilter
 import com.example.restaurantsearch.viewmodel.RestaurantViewModel
 import com.example.restaurantsearch.viewmodel.SearchViewModel
 
@@ -44,7 +46,8 @@ import com.example.restaurantsearch.viewmodel.SearchViewModel
 fun ResultScreen(
     modifier: Modifier = Modifier,
     //navController: NavController,
-    restaurantViewModel: RestaurantViewModel = viewModel()
+    restaurantViewModel: RestaurantViewModel = viewModel(),
+    range: String
     ) {
     val restaurants by restaurantViewModel.restaurants.observeAsState(emptyList())
 
@@ -54,7 +57,7 @@ fun ResultScreen(
         } else {
             LazyColumn {
                 items(restaurants) { shop ->
-                    RestaurantItem(shop)
+                    RestaurantItem(shop, range)
                 }
             }
         }
@@ -74,17 +77,21 @@ private fun Greeting(name: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun RestaurantItem(shop: Shop) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = shop.name ?: "店名不明", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            Text(text = shop.address ?: "住所不明")
-            Text(text = "予算: ${shop.budget?.name ?: "不明"}")
+fun RestaurantItem(shop: Shop, range: String) {
+    val searchViewModel: SearchViewModel = viewModel()
+    if(!distanceFilter(shop, range, searchViewModel)){
+        Log.d("RestaurantItem", range)
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Text(text = shop.name ?: "店名不明", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Text(text = shop.address ?: "住所不明")
+                Text(text = "予算: ${shop.budget?.name ?: "不明"}")
+            }
         }
     }
 }
