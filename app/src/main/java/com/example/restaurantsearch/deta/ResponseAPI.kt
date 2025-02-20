@@ -31,12 +31,12 @@ data class Shop(
 ): Serializable
 
 data class Photo(
-    val mobile: Mobile?             // Mobile向けの写真
+    val pc: Pc?                     // PC向けの写真
 ): Serializable
 
-data class Mobile(
+data class Pc(
     val l: String?,                 // 店舗トップ写真(大）
-    val s: String?                  // 店舗トップ写真(小）
+    val m: String?                  // 店舗トップ写真(中）
 ): Serializable
 
 data class Budget(

@@ -2,6 +2,7 @@ package com.example.restaurantsearch.screens
 
 import android.app.Activity
 import android.util.Log
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,7 +18,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -33,11 +36,20 @@ fun ConditionScreen(
     var showError by remember { mutableStateOf(false) } // エラー表示フラグ
     val context = LocalContext.current
     val activity = context as? Activity
+    val focusManager = LocalFocusManager.current
 
+    //
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = {
+                    focusManager.clearFocus()
+                })
+            },
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
+
     ) {
         if(activity != null)
         {
@@ -56,6 +68,7 @@ fun ConditionScreen(
         Button(
             modifier = Modifier
                 .padding(vertical = 24.dp),
+
             onClick = {
                 if (conditionViewModel.range.isEmpty() || conditionViewModel.budget.isEmpty()) {
                     showError = true // 入力が空ならエラー表示

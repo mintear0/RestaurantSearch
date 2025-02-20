@@ -32,6 +32,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -90,8 +91,7 @@ private fun Greeting(name: String, modifier: Modifier = Modifier) {
 fun RestaurantItem(modifier: Modifier, navController: NavController, shop: Shop, range: String, searchViewModel: SearchViewModel) {
     if(distanceFilter(shop, range, searchViewModel)){
         Log.d("RestaurantItem", range)
-        val imageUrl = shop.photo?.mobile?.s
-        val argumentSeparator = ","
+        val imageUrl = shop.photo?.pc?.m
         Card(
             modifier
                 .fillMaxWidth()
@@ -104,7 +104,7 @@ fun RestaurantItem(modifier: Modifier, navController: NavController, shop: Shop,
                 },
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
-            Column(modifier.padding(16.dp)) {
+            Column(modifier.padding(16.dp),) {
                 Row(modifier.padding(8.dp)) {
                     if(imageUrl == null || imageUrl == "")
                     {
@@ -113,8 +113,9 @@ fun RestaurantItem(modifier: Modifier, navController: NavController, shop: Shop,
                                 .size(48.dp)
                                 .border(
                                     width = 2.dp,
-                                    color = Color.Black
-                                )
+                                    color = Color.Black,
+                                ),
+                            contentAlignment = Alignment.Center
                         ) { Text(text = "No\nImage") }
                     } else {
                         Image(
@@ -122,7 +123,8 @@ fun RestaurantItem(modifier: Modifier, navController: NavController, shop: Shop,
                             contentDescription = null,
                             modifier = Modifier
                                 .size(48.dp),
-                            contentScale = ContentScale.Crop
+                            contentScale = ContentScale.Crop,
+
                         )
                     }
                 }
