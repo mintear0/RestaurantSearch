@@ -125,10 +125,6 @@ fun RestaurantItem(modifier: Modifier, navController: NavController, shop: Shop,
                             contentScale = ContentScale.Crop
                         )
                     }
-                    End(
-
-                    )
-
                 }
                 Text(text = shop.name ?: "店名不明", fontSize = 20.sp, fontWeight = FontWeight.Bold)
                 Text(text = shop.address ?: "住所不明")
