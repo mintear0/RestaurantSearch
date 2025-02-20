@@ -61,7 +61,7 @@ fun ConditionScreen(
                     showError = true // 入力が空ならエラー表示
                 } else {
                     showError = false
-                    navController.navigate("searching/${conditionViewModel.range}/${conditionViewModel.budget}")
+                    navController.navigate("searching/${conditionViewModel.budget}/${conditionViewModel.range}")
                 }
             }
         ) {

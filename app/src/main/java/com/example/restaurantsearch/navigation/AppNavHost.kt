@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.restaurantsearch.screens.ConditionScreen
+import com.example.restaurantsearch.screens.DetailScreen
 import com.example.restaurantsearch.screens.SearchingScreen
 import com.example.restaurantsearch.screens.ResultScreen
 import com.example.restaurantsearch.viewmodel.ConditionViewModel
@@ -42,7 +43,15 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier, 
             SearchingScreen(modifier, navController, searchViewModel, restaurantViewModel, budget, range)
         }
         composable("result") {
-            ResultScreen(modifier, restaurantViewModel, conditionViewModel.range)
+            ResultScreen(modifier, navController, restaurantViewModel, searchViewModel, conditionViewModel.range)
+        }
+        composable("detail/{shopId}",
+            arguments = listOf(
+                navArgument("shopId") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val shopId = backStackEntry.arguments?.getString("shopId")?:""
+            DetailScreen(modifier, navController, restaurantViewModel, shopId)
         }
     }
 }

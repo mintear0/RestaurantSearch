@@ -59,9 +59,11 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.runtime.livedata)
-    implementation (libs.kotlinx.coroutines.play.services)
-    implementation (libs.retrofit)
-    implementation (libs.converter.gson)
+    implementation(libs.kotlinx.coroutines.play.services)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.coil)
+    implementation(libs.coil.compose)
 
 
     testImplementation(libs.junit)

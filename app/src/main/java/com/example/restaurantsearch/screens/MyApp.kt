@@ -13,6 +13,7 @@ import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.colorspace.Rgb
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.example.restaurantsearch.navigation.AppNavHost
@@ -26,9 +27,9 @@ fun MyApp(modifier: Modifier = Modifier) {
         topBar = {
             TopAppBar(
                 title = {
-                    Box() { Text( text = "TopAppBar" ) }
+                    Box() { Text( text = "TopAppBar" , color = Color.White) }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.LightGray)
+                colors = topAppBarColors(containerColor = Color.Red)
             )
         },
     ) { padding ->

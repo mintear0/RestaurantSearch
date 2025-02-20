@@ -47,5 +47,6 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     }
     fun cancelLocationRequest() {
         locationJob?.cancel()
+        // Log.d("cancelLocationRequest", "_locationDataは${locationData.value}")
     }
 }

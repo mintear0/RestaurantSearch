@@ -26,8 +26,8 @@ import com.example.restaurantsearch.viewmodel.RestaurantViewModel
 fun SearchingScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
-    searchViewModel: SearchViewModel = viewModel(),
-    restaurantViewModel: RestaurantViewModel = viewModel(),
+    searchViewModel: SearchViewModel,
+    restaurantViewModel: RestaurantViewModel,
     budget: String,
     range: String
 ) {
@@ -57,7 +57,7 @@ fun SearchingScreen(
                 )
                 restaurantViewModel.getRestaurants(searchData)
                 Log.d("SearchingScreen", "getRestaurantsは通過したよ")
-                Log.d("searchData","budget={$budget}range={$feeCode}")
+                Log.d("searchData","budget={$feeCode}range={$range}")
                 Log.d("API_REQUEST", "URL: https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=$apiKey&budget=$feeCode&range=$rangeNumber&lat=$lat&lng=$lng&format=json")
             }
         }

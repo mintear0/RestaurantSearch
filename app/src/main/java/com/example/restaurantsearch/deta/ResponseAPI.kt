@@ -11,6 +11,9 @@ data class Result(
 )
 
 data class Shop(
+    // 固有のID
+    val id: String?,                // 店舗ID
+
     // 距離の絞り込みで使用
     val lat: String?,               // 緯度
     val lng: String?,               // 経度

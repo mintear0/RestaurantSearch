@@ -38,6 +38,7 @@ object DistanceMeasure {
         return sqrt((M * dlat).pow(2.0) + (N * dlng * cos(mu)).pow(2.0)) * 1000      // 距離[m]
     }
 
+    // 2点間の距離を計算
     private fun  distanceMeasure(shop: Shop, searchViewModel: SearchViewModel):Int {
         // 弧度法へ変換
         val lat = deg2rad(shop.lat?.toDouble())
@@ -52,11 +53,10 @@ object DistanceMeasure {
         return calDistance(lat, lng, latnow, lngnow).toInt()
     }
 
+    // 指定した距離以上離れていれば表示しない
     fun distanceFilter(shop: Shop, range: String, searchViewModel: SearchViewModel):Boolean {
         val distance = distanceMeasure(shop, searchViewModel)
         Log.d("distanceFilter", (range.toInt() >= distance).toString())
         return (range.toInt() >= distance)
     }
-
-
 }
