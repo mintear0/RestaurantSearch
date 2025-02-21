@@ -1,9 +1,9 @@
 package com.example.restaurantsearch.util
 
 import android.util.Log
+import androidx.compose.runtime.Composable
 import com.example.restaurantsearch.deta.Shop
 import com.example.restaurantsearch.viewmodel.SearchViewModel
-import java.lang.Math.pow
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.pow
@@ -23,7 +23,8 @@ object DistanceMeasure {
     }
 
     // Hubenyの公式を使って2点間の距離を取得する
-    private fun calDistance(lat: Double, lng: Double, latnow: Double, lngnow: Double):Double {
+    @Composable
+    fun calDistance(lat: Double, lng: Double, latnow: Double, lngnow: Double):Double {
         val RX = 6378.137                                                                     // 回転楕円体の長半径（赤道半径）[km]
         val RY = 6356.752                                                                     // 回転楕円体の短半径（極半径）[km]
         val dlat = lat - latnow
@@ -39,7 +40,8 @@ object DistanceMeasure {
     }
 
     // 2点間の距離を計算
-    private fun  distanceMeasure(shop: Shop, searchViewModel: SearchViewModel):Int {
+    @Composable
+    fun  distanceMeasure(shop: Shop, searchViewModel: SearchViewModel):Int {
         // 弧度法へ変換
         val lat = deg2rad(shop.lat?.toDouble())
         val lng = deg2rad(shop.lng?.toDouble())
@@ -54,6 +56,7 @@ object DistanceMeasure {
     }
 
     // 指定した距離以上離れていれば表示しない
+    @Composable
     fun distanceFilter(shop: Shop, range: String, searchViewModel: SearchViewModel):Boolean {
         val distance = distanceMeasure(shop, searchViewModel)
         Log.d("distanceFilter", (range.toInt() >= distance).toString())

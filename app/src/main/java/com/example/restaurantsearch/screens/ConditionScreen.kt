@@ -3,7 +3,6 @@ package com.example.restaurantsearch.screens
 import android.app.Activity
 import android.util.Log
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,12 +21,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.restaurantsearch.util.PermissionUtils
 import com.example.restaurantsearch.viewmodel.ConditionViewModel
@@ -59,7 +56,7 @@ fun ConditionScreen(
             }
         }
 
-        Text("検索範囲と金額を指定")
+        Text("検索範囲と予算を指定")
 
         InputRange(conditionViewModel, showError, focusManager) // focusManager を渡す
         InputBudget(conditionViewModel, showError, focusManager) // focusManager を渡す
@@ -108,7 +105,7 @@ fun InputBudget(viewModel: ConditionViewModel, showError: Boolean, focusManager:
             .padding(vertical = 6.dp),
         value = viewModel.budget,
         onValueChange = { viewModel.updateMoney(it) },
-        label = { Text("金額を入力(円)") },
+        label = { Text("予算を入力(円)") },
         isError = showError && viewModel.budget.isEmpty(),
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
         keyboardActions = KeyboardActions(
