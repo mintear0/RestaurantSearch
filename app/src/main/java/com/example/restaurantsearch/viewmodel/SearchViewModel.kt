@@ -2,16 +2,12 @@ package com.example.restaurantsearch.viewmodel
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.location.Location
 import android.util.Log
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.restaurantsearch.deta.LocationRepository
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 

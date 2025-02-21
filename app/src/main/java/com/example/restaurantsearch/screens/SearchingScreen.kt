@@ -14,9 +14,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.restaurantsearch.deta.Budget
 import com.example.restaurantsearch.deta.SearchData
 import com.example.restaurantsearch.viewmodel.SearchViewModel
 import com.example.restaurantsearch.util.PermissionUtils

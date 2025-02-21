@@ -1,10 +1,7 @@
 package com.example.restaurantsearch.deta
 
-import com.example.restaurantsearch.api.ApiService
 import com.example.restaurantsearch.api.RetrofitClient
-import com.example.restaurantsearch.deta.ResponseAPI
 import retrofit2.HttpException
-import retrofit2.Response
 import kotlin.Result
 
 class RestaurantRepository {
