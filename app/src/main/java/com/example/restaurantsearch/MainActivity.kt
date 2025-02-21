@@ -16,7 +16,6 @@ class MainActivity : AppCompatActivity() {
             AppTheme {
                 MyApp(modifier = Modifier.fillMaxSize())
             }
-            println("KotlinVersion >> " + KotlinVersion.CURRENT)
         }
     }
 }
