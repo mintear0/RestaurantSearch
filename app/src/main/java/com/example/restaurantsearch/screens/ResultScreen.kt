@@ -129,8 +129,8 @@ fun RestaurantItem(modifier: Modifier, navController: NavController, shop: Shop,
                     }
                 }
                 Text(text = shop.name ?: "店名不明", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                Text(text = shop.address ?: "住所不明")
-                Text(text = "予算: ${shop.budget?.name ?: "不明"}")
+                Text(text = shop.mobile_access ?: "アクセス不明")
+                Text(text = "予算: ${shop.budget?.name ?: "予算不明"}")
             }
         }
     }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import androidx.activity.compose.setContent
 import androidx.lifecycle.Observer
 import androidx.compose.*
@@ -22,6 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.restaurantsearch.navigation.AppNavHost
 import com.example.restaurantsearch.screens.MyApp
 import com.example.restaurantsearch.ui.theme.*
+import com.example.restaurantsearch.util.KeyboardUtils
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,6 +35,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-
 }

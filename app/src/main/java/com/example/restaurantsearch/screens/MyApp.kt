@@ -36,3 +36,4 @@ fun MyApp(modifier: Modifier = Modifier) {
         AppNavHost(navController, modifier, padding)
     }
 }
+
